@@ -77,7 +77,7 @@ Sem pastas genéricas de hooks/utils antes de precisar.
 
 ## Estado do projeto
 
-Fundação pronta (etapa 1). Próxima etapa: design.
+Fundação (etapa 1) e design (etapa 2) prontos. Faltam do material: contatos do PET Biologia, como escolas agendam a visita, o texto final de cada sítio e `public/og.png` (procure `TODO(conteúdo)`).
 
 Ajustes feitos na fundação em relação às decisões:
 - Lint com **oxlint** (o padrão atual do template Vite), não ESLint. Mesmo papel no CI.
@@ -100,12 +100,22 @@ O CI (`.github/workflows/ci.yml`) roda lint, build e e2e em todo push e PR. Na `
 
 ## Arquitetura
 
-- `src/App.tsx`: nav por âncoras, `<SmoothScroll>` em volta de tudo e as seções em ordem.
-- `src/motion/`: `gsap.ts` registra ScrollTrigger e `useGSAP` uma vez. `SmoothScroll.tsx` liga Lenis ao ticker do GSAP. `useReducedMotion.ts`.
-- `src/components/Section.tsx`: casca de toda seção (título e revelação no scroll). Marque com `data-reveal` os filhos que devem animar. Reduced-motion é tratado via `gsap.matchMedia`.
-- `src/sections/NextEventBlock.tsx`: bloco que reage ao `status` do próximo evento, usado no Hero e na Inscrição. Tem `data-testid="proximo-evento"`, que o teste de fumaça usa.
-- `src/three/HeroScene.tsx`: export default para o `React.lazy`. O chunk do three.js (~245 kB gzip) só carrega com o hero.
-- `src/components/ui/`: componentes shadcn (`button`, `dialog`).
+- `src/App.tsx`: cabeçalho fixo (marca, links e botão "Participar"), `<SmoothScroll>` em volta de tudo e as seções em ordem: Hero, O que é (`About`), Percurso (`HowItWorks`), Edições, Quem faz (`Team`), Como participar (`Signup`).
+- `src/content/`: `site.ts`, `next-event.ts`, `sitios.ts` (paradas do percurso), `editions.ts`, `team.ts` (coordenação e grupos) e `fotos.ts` (fotos em `public/fotos/*.webp`, sempre com `BASE_URL`).
+- `src/motion/`: `gsap.ts` registra ScrollTrigger e `useGSAP` uma vez. `SmoothScroll.tsx` liga o Lenis ao ticker do GSAP. `useReducedMotion.ts`. O GSAP anima só a entrada do título do hero (o único momento orquestrado).
+- `src/components/Section.tsx`: casca estática de seção (âncora, título, largura). Não anima.
+- `src/sections/NextEventBlock.tsx`: bloco que reage ao `status` do próximo evento, usado no Hero e em "Como participar". Tem `data-testid="proximo-evento"`, que o teste de fumaça usa.
+- `src/three/HeroScene.tsx`: amonite procedural (espiral logarítmica com costelas). Export default para o `React.lazy`. O chunk do three.js (~240 kB gzip) só carrega com o hero.
+
+## Design implementado (skill `visual`, workflow de UI)
+
+- Paleta "pica-pau-amarelo" em `src/index.css`: mata `#0f6b3e`, mata-escura `#0a4a2b`, pena `#f2c230`, crista `#c8102e`, carvão `#1a1a1a`, papel `#fff`, folha `#e3efe4`. Disponíveis como classes Tailwind (`bg-mata`, `text-pena`...).
+- Tipografia: Fraunces (títulos, com eixos SOFT/WONK) e Atkinson Hyperlegible (corpo, 18 px).
+- Camadas de componentes:
+  - **Fundações**: shadcn (`button`, `drawer`) sobre Radix.
+  - **Especialistas**: Vaul (galeria de fotos em `drawer`) e NumberFlow (contagem de participantes). Sonner e cmdk não entraram porque a página não tem aviso nem busca.
+  - **Componente de design (destaque único)**: `src/components/ui/timeline.tsx`, Timeline da Aceternity retematizado como a trilha do percurso. Não adicione outro componente de design na página.
+- O hero 3D é discreto de propósito, para não competir com a trilha.
 
 ## ECC (Everything Claude Code) instalado só neste projeto
 

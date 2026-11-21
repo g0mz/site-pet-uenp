@@ -19,9 +19,11 @@ Todo o texto fica em `src/content/`. Não precisa mexer nos componentes.
 |---|---|
 | `.env` | URL pública, nome e descrição do site (usados também nas prévias de link) |
 | `src/content/next-event.ts` | Bloco do próximo evento. Troque o `status` para mudar de fase |
-| `src/content/site.ts` | Contatos, texto "sobre" e passos de "como funciona" |
-| `src/content/editions.ts` | Edições anteriores |
-| `src/content/team.ts` | Equipe |
+| `src/content/site.ts` | Contatos e como agendar a visita |
+| `src/content/sitios.ts` | Paradas do percurso (Sítios Científicos) |
+| `src/content/editions.ts` | Edições anteriores, local e municípios |
+| `src/content/team.ts` | Coordenação, grupos e apoio |
+| `src/content/fotos.ts` | Fotos e textos alternativos (arquivos em `public/fotos/`) |
 
 ### Fases do próximo evento
 
@@ -38,12 +40,8 @@ Todo conteúdo provisório está marcado com `TODO(conteúdo)`:
 git grep "TODO(conteúdo)"
 ```
 
-- Nome e descrição do evento (`.env`)
-- Dados da próxima edição (`next-event.ts`)
-- Contatos, "sobre" e "como funciona" (`site.ts`)
-- Edições anteriores e fotos (`editions.ts`)
-- Equipe e fotos (`team.ts`, fotos em `public/equipe/`)
-- Texto do processo de inscrição (`src/sections/Signup.tsx`)
+- Contatos do PET Biologia e como as escolas agendam a visita (`site.ts`)
+- Confirmar o texto e o personagem padrinho de cada sítio (`sitios.ts`)
 - Imagem de prévia de link `public/og.png` (1200×630) e a tag no `index.html`
 
 ## Publicação

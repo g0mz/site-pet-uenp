@@ -1,43 +1,55 @@
 import { SmoothScroll } from '@/motion/SmoothScroll'
 import { About } from '@/sections/About'
-import { Contact } from '@/sections/Contact'
 import { Editions } from '@/sections/Editions'
 import { Hero } from '@/sections/Hero'
 import { HowItWorks } from '@/sections/HowItWorks'
 import { Signup } from '@/sections/Signup'
 import { Team } from '@/sections/Team'
-import { site } from '@/content/site'
 
 const nav = [
-  { href: '#sobre', label: 'Sobre' },
-  { href: '#como-funciona', label: 'Como funciona' },
+  { href: '#sobre', label: 'O que é' },
+  { href: '#percurso', label: 'Percurso' },
   { href: '#edicoes', label: 'Edições' },
-  { href: '#equipe', label: 'Equipe' },
-  { href: '#inscricao', label: 'Inscrição' },
-  { href: '#contato', label: 'Contato' },
+  { href: '#equipe', label: 'Quem faz' },
 ]
 
 export default function App() {
   return (
     <SmoothScroll>
-      <nav aria-label="Seções" className="fixed inset-x-0 top-0 z-50 flex justify-center gap-4 p-4 text-sm">
-        {nav.map((n) => (
-          <a key={n.href} href={n.href} className="hover:underline">
-            {n.label}
+      <header className="sticky top-0 z-50 border-b bg-papel/90 backdrop-blur">
+        <nav aria-label="Seções" className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+          <a href="#inicio" className="font-display text-xl font-semibold text-mata">
+            Quintas da Ciência
           </a>
-        ))}
-      </nav>
-      <Hero />
+          <div className="flex items-center gap-6">
+            <ul className="hidden gap-6 md:flex">
+              {nav.map((n) => (
+                <li key={n.href}>
+                  <a href={n.href} className="hover:text-mata hover:underline">
+                    {n.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="#participar" className="rounded-md bg-pena px-4 py-2 font-bold text-carvao hover:bg-pena/85">
+              Participar
+            </a>
+          </div>
+        </nav>
+      </header>
       <main>
+        <Hero />
         <About />
         <HowItWorks />
         <Editions />
         <Team />
         <Signup />
-        <Contact />
       </main>
-      <footer className="px-6 py-12 text-center text-sm text-muted-foreground">
-        {site.nome} · {site.organizacao}
+      <footer className="bg-mata-escura px-5 py-10 text-papel">
+        <p className="mx-auto max-w-6xl">
+          Quintas da Ciência da UENP, um projeto do PET Biologia no Campus Luiz Meneghel, em
+          Bandeirantes (PR).
+        </p>
       </footer>
     </SmoothScroll>
   )
