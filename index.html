@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Valores vindos do .env (VITE_SITE_*). Robôs de prévia não rodam JS, por isso ficam aqui. -->
+    <title>%VITE_SITE_NAME%</title>
+    <meta name="description" content="%VITE_SITE_DESCRIPTION%" />
+    <link rel="canonical" href="%VITE_SITE_URL%" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="%VITE_SITE_URL%" />
+    <meta property="og:title" content="%VITE_SITE_NAME%" />
+    <meta property="og:description" content="%VITE_SITE_DESCRIPTION%" />
+    <!-- TODO(conteúdo): criar public/og.png (1200x630) e descomentar -->
+    <!-- <meta property="og:image" content="%VITE_SITE_URL%og.png" /> -->
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
