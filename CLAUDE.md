@@ -69,7 +69,35 @@ Sem pastas genéricas de hooks/utils antes de precisar.
 
 ## Estado do projeto
 
-Decisões tomadas, código ainda não criado (o repositório contém só `README.md`). Ao criar a fundação, registre aqui os comandos de dev, build, lint e teste (incluindo como rodar um teste isolado).
+Fundação pronta (etapa 1). Próxima etapa: design.
+
+Ajustes feitos na fundação em relação às decisões:
+- Lint com **oxlint** (o padrão atual do template Vite), não ESLint. Mesmo papel no CI.
+- Fonte placeholder **Geist** (veio com o preset Nova do shadcn), não Inter.
+- Nome e descrição do site ficam no `.env` (`VITE_SITE_NAME`, `VITE_SITE_DESCRIPTION`), ao lado de `VITE_SITE_URL`, porque o `index.html` (via `%VITE_*%`) e `src/content/site.ts` usam os mesmos valores.
+- `pnpm dlx shadcn` falha com pnpm 11. Use `npx shadcn@latest add <item>`.
+
+## Comandos
+
+```bash
+pnpm dev                 # servidor local em http://localhost:5173/site-pet-uenp/
+pnpm build               # tsc -b + vite build (saída em dist/)
+pnpm lint                # oxlint
+pnpm typecheck           # tsc -b
+pnpm test:e2e            # Playwright contra o build (sobe vite preview na porta 4173)
+pnpm test:e2e -g "nome"  # roda um teste isolado pelo título
+```
+
+O CI (`.github/workflows/ci.yml`) roda lint, build e e2e em todo push e PR. Na `main`, publica no GitHub Pages.
+
+## Arquitetura
+
+- `src/App.tsx`: nav por âncoras, `<SmoothScroll>` em volta de tudo e as seções em ordem.
+- `src/motion/`: `gsap.ts` registra ScrollTrigger e `useGSAP` uma vez. `SmoothScroll.tsx` liga Lenis ao ticker do GSAP. `useReducedMotion.ts`.
+- `src/components/Section.tsx`: casca de toda seção (título e revelação no scroll). Marque com `data-reveal` os filhos que devem animar. Reduced-motion é tratado via `gsap.matchMedia`.
+- `src/sections/NextEventBlock.tsx`: bloco que reage ao `status` do próximo evento, usado no Hero e na Inscrição. Tem `data-testid="proximo-evento"`, que o teste de fumaça usa.
+- `src/three/HeroScene.tsx`: export default para o `React.lazy`. O chunk do three.js (~245 kB gzip) só carrega com o hero.
+- `src/components/ui/`: componentes shadcn (`button`, `dialog`).
 
 ## ECC (Everything Claude Code) instalado só neste projeto
 
@@ -79,4 +107,4 @@ Instalado com `ecc-universal@2.2.3`, perfil `minimal`, alvo `claude-project` e `
 - **Nenhum hook foi registrado** (o `.claude/settings.json` não tem entrada de hooks). Não habilite hooks sem o usuário pedir.
 - É uma instalação manual por projeto. Não instale também o plugin `ecc@ecc`, porque isso duplica skills e comandos.
 - Gerenciar a instalação (rodar no diretório do projeto): `npx ecc-universal@2.2.3 doctor --target claude-project`, `... list-installed` e `... uninstall --dry-run`.
-- Em `.claude/rules/ecc/` ficam só `common`, `typescript`, `react` e `web`. As pastas das demais linguagens devem ser apagadas na etapa de fundação.
+- Em `.claude/rules/ecc/` ficam só `common`, `typescript`, `react` e `web`. As demais já foram apagadas.
