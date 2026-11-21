@@ -13,6 +13,14 @@ Site de divulgação de um evento (organizado pelo PET/UENP). Conteúdo previsto
 - contato
 - um espaço de destaque para anunciar o próximo evento quando for marcado. Esse bloco muda com frequência, então o conteúdo dele deve ser fácil de editar sem mexer na estrutura da página.
 
+## Fonte do conteúdo
+
+Todo texto e decisão visual se baseia em `material/` (fora do git, porque o repositório é público):
+- `material/originais/`: arquivos que o usuário enviou, intocados.
+- `material/*.md`: conversões em Markdown, que são a referência de leitura. Fotos extraídas ficam em `material/imagens/`, com índice descritivo no `.md` do evento.
+
+O evento é o **Quintas da Ciência da UENP**, feira de popularização da ciência do PET Biologia (campus Luiz Meneghel, Bandeirantes), com estações chamadas "Sítios Científicos" e inspiradas no Sítio do Picapau Amarelo. Não invente fatos que não estejam no material. Se faltar algo, pergunte.
+
 ## Direção de design (decidida pelo usuário)
 
 - Visual com muito movimento: scroll suave com **Lenis**, animações de scroll com **GSAP** (ScrollTrigger) e objetos 3D.
