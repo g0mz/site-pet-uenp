@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import type { NextEvent } from '@/content/next-event'
 
 const frase: Record<NextEvent['status'], string> = {
-  'sem-data': 'vem aí. A data sai em breve.',
+  'sem-data': 'em breve',
   'em-breve': 'já tem data marcada.',
   'inscricoes-abertas': 'está com inscrições abertas.',
   encerrado: 'está com inscrições encerradas.',
@@ -19,7 +19,7 @@ export function NextEventBlock({ event }: { event: NextEvent }) {
       className="inline-block -rotate-1 rounded-2xl border-2 border-tinta bg-papel px-6 py-5 shadow-[0_6px_0_var(--tinta)]"
     >
       <p className="font-display text-2xl leading-snug font-bold md:text-3xl">
-        A {event.edicao} {frase[event.status]}
+        {event.status === 'sem-data' ? `${event.edicao} ${frase['sem-data']}` : `A ${event.edicao} ${frase[event.status]}`}
       </p>
       {local && <p className="mt-2 text-lg">{local}</p>}
       {podeInscrever && (

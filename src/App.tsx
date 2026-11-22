@@ -50,6 +50,11 @@ export default function App() {
           Quintas da Ciência da UENP, um projeto do PET Biologia no Campus Luiz Meneghel, em
           Bandeirantes (PR).
         </p>
+        {/* Créditos exigidos pela licença CC-BY dos modelos 3D do hero (poly.pizza). */}
+        <p className="mx-auto mt-4 max-w-6xl text-sm text-papel/80">
+          Modelos 3D do poly.pizza: DNA por Zoe XR, microscópio por Colonel Cthulu, frasco Erlenmeyer
+          por Poly by Google e borboleta por sirkitree (CC-BY 3.0); tricerátopo por Quaternius (CC0).
+        </p>
       </footer>
     </SmoothScroll>
   )

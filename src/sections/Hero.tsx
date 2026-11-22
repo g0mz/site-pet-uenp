@@ -1,13 +1,30 @@
 import { lazy, Suspense, useRef } from 'react'
-import { galeria } from '@/content/fotos'
 import { nextEvent } from '@/content/next-event'
 import { gsap, MOVIMENTO, useGSAP } from '@/motion/gsap'
 import { NextEventBlock } from './NextEventBlock'
 
 const HeroScene = lazy(() => import('@/three/HeroScene'))
 
-// Duas fotos das edições coladas como figurinhas atrás dos objetos 3D.
-const [escavacao, realidadeVirtual] = galeria
+// Nuvem fofa desenhada com círculos (viewBox 200x90).
+function Nuvem({ className }: { className: string }) {
+  return (
+    <svg data-nuvem viewBox="0 0 200 90" aria-hidden="true" className={`absolute fill-papel ${className}`}>
+      <circle cx="55" cy="58" r="30" />
+      <circle cx="95" cy="40" r="38" />
+      <circle cx="140" cy="55" r="30" />
+      <rect x="40" y="55" width="120" height="33" rx="16" />
+    </svg>
+  )
+}
+
+// Brilho de quatro pontas.
+function Brilho({ className }: { className: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={`absolute fill-pena ${className}`}>
+      <path d="M12 0 Q13.5 10.5 24 12 Q13.5 13.5 12 24 Q10.5 13.5 0 12 Q10.5 10.5 12 0Z" />
+    </svg>
+  )
+}
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null)
@@ -20,9 +37,16 @@ export function Hero() {
         // Entrada: o título e o cartão pulam para o lugar quando a página abre.
         gsap.from('[data-entra]', { y: 40, scale: 0.92, opacity: 0, duration: 0.9, stagger: 0.1, ease: 'back.out(1.7)' })
 
-        // Saída: conforme o palco sobe, os objetos 3D se espalham e as figurinhas descolam.
-        // O gatilho é o palco, não o hero, para no celular (palco abaixo do texto) a cena
-        // ainda estar montada quando aparece.
+        // Os raios de sol giram sem parar, bem devagar.
+        gsap.to('[data-raios]', { rotation: 360, duration: 120, repeat: -1, ease: 'none' })
+
+        // Saída: conforme o palco sobe, os objetos 3D se espalham e as nuvens sobem em velocidades
+        // diferentes. O gatilho é o palco para no celular a cena ainda estar montada quando aparece.
+        gsap.to('[data-nuvem]', {
+          y: (i) => -60 - i * 50,
+          ease: 'none',
+          scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
+        })
         gsap.timeline({
           scrollTrigger: {
             trigger: '[data-palco]',
@@ -34,8 +58,6 @@ export function Hero() {
             },
           },
         })
-          .to('[data-figurinha="1"]', { y: -160, rotation: -18, ease: 'none' }, 0)
-          .to('[data-figurinha="2"]', { y: -260, rotation: 16, ease: 'none' }, 0)
       })
       return () => mm.revert()
     },
@@ -43,18 +65,42 @@ export function Hero() {
   )
 
   return (
-    <section ref={ref} id="inicio" aria-labelledby="inicio-titulo" className="relative isolate overflow-hidden bg-ceu">
-      <div className="mx-auto grid max-w-6xl items-center px-5 pt-10 md:min-h-[calc(100svh-4.25rem)] md:grid-cols-[1fr_1.1fr] md:pt-0">
+    <section
+      ref={ref}
+      id="inicio"
+      aria-labelledby="inicio-titulo"
+      className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#9ad8ff_0%,var(--ceu)_55%,#2f95d6_100%)]"
+    >
+      {/* Fundo: brilho de sol, raios girando, nuvens e brilhos. Tudo decorativo. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-40 right-[-18rem] size-[34rem] md:right-[-10rem] md:size-[46rem] rounded-full bg-[radial-gradient(circle,rgb(255_207_51/0.75)_0%,rgb(255_207_51/0.25)_35%,transparent_70%)]" />
+        <div
+          data-raios
+          className="absolute -top-[40rem] right-[-34rem] size-[94rem] rounded-full opacity-25 [background:repeating-conic-gradient(from_0deg,#fff_0deg_6deg,transparent_6deg_18deg)] [mask-image:radial-gradient(circle,#000_0%,transparent_60%)]"
+        />
+        <Nuvem className="top-[8%] left-[-3%] hidden w-72 opacity-90 md:block" />
+        <Nuvem className="top-[52%] left-[38%] w-40 opacity-70" />
+        <Nuvem className="right-[4%] bottom-[18%] w-64 opacity-80 md:w-80" />
+        <Nuvem className="top-[18%] right-[30%] hidden w-28 opacity-60 md:block" />
+        <Brilho className="top-[14%] left-[46%] size-6" />
+        <Brilho className="top-[70%] left-[6%] size-5" />
+        <Brilho className="top-[30%] right-[6%] size-7" />
+        <Brilho className="bottom-[26%] left-[52%] hidden size-4 md:block" />
+      </div>
+
+      <div className="mx-auto grid max-w-6xl items-center px-5 pt-12 md:min-h-[calc(100svh-4.25rem)] md:grid-cols-[1.25fr_1fr] md:pt-0">
         <div className="relative z-20 md:pb-16">
-          <h1 id="inicio-titulo" className="leading-[0.88]">
-            <span data-entra className="block text-[clamp(3.4rem,9vw,7.5rem)]">
-              Quintas da Ciência
-            </span>
-            <span data-entra className="mt-5 block max-w-md font-sans text-xl font-bold tracking-normal md:text-2xl">
-              Feira de ciências do PET Biologia da UENP, em Bandeirantes
-            </span>
+          <h1
+            id="inicio-titulo"
+            className="text-[clamp(3.5rem,8.2vw,7.75rem)] leading-[0.92] whitespace-nowrap text-papel [paint-order:stroke_fill] [text-shadow:0_0.08em_0_var(--tinta)] [-webkit-text-stroke:0.07em_var(--tinta)]"
+          >
+            <span data-entra className="block">Quintas</span>
+            <span data-entra className="block">da Ciência</span>
           </h1>
-          <p data-entra className="mt-5 max-w-md text-lg md:text-xl">
+          <p data-entra className="mt-6 max-w-md font-display text-xl font-bold md:text-2xl">
+            Feira de ciências do PET Biologia da UENP, em Bandeirantes
+          </p>
+          <p data-entra className="mt-3 max-w-md text-lg md:text-xl">
             Escolas e comunidade fazem um percurso pelos Sítios Científicos, cada um apadrinhado
             por um personagem do Sítio do Picapau Amarelo.
           </p>
@@ -63,23 +109,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div data-palco className="relative h-[22rem] md:h-[min(40rem,78svh)]">
-          <img
-            data-figurinha="1"
-            src={escavacao.src}
-            alt={escavacao.alt}
-            width={1200}
-            height={900}
-            className="figurinha absolute top-[16%] left-[8%] w-[46%] -rotate-6 object-cover md:w-[42%]"
-          />
-          <img
-            data-figurinha="2"
-            src={realidadeVirtual.src}
-            alt={realidadeVirtual.alt}
-            width={900}
-            height={1200}
-            className="figurinha absolute right-[10%] bottom-[12%] aspect-[3/4] w-[34%] rotate-6 object-cover md:w-[30%]"
-          />
+        <div data-palco className="relative h-[24rem] md:h-[min(40rem,78svh)]">
           <Suspense fallback={null}>
             <HeroScene progresso={progresso} />
           </Suspense>

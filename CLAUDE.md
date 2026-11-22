@@ -106,7 +106,7 @@ O CI (`.github/workflows/ci.yml`) roda lint, build e e2e em todo push e PR. Na `
 - Cada seção tem o próprio efeito de scroll, com `useGSAP` no escopo dela e dentro de `gsap.matchMedia().add(MOVIMENTO, ...)`. Com reduced-motion a página fica parada.
 - `src/components/Section.tsx`: casca de seção (âncora, título, largura) que aceita `ref` para o efeito da seção.
 - `src/sections/NextEventBlock.tsx`: bloco que reage ao `status` do próximo evento, usado no Hero e em "Como participar". Tem `data-testid="proximo-evento"`, que o teste de fumaça usa.
-- `src/three/HeroScene.tsx`: objetos de ciência com cara de massinha (DNA, planeta, lupa, folha e tubo de ensaio), feitos com geometria do three.js e drei (`Float`, `Environment` com `Lightformer`, sem baixar HDR). Seguem o mouse e se espalham com o `progresso` que o GSAP passa por ref. Export default para o `React.lazy`. O chunk do three.js (~265 kB gzip) só carrega com o hero.
+- `src/three/HeroScene.tsx`: modelos prontos do poly.pizza em `public/modelos/*.glb` (DNA, microscópio, frasco, borboleta e tricerátopo; créditos CC-BY no rodapé do `App.tsx`), carregados com `useGLTF` e normalizados por tamanho (`SkeletonUtils.clone` por causa do tricerátopo animado). Flutuam (`Float`), seguem o mouse e se espalham com o `progresso` que o GSAP passa por ref. Fundo do hero: degradê de céu, sol com raios girando, nuvens com parallax e brilhos, tudo em CSS/SVG.
 
 ## Design implementado: "feira de figurinhas" (frontend-design, 2026-11-21)
 
@@ -116,7 +116,7 @@ Escolhida entre três direções (livro pop-up, expedição na mata e feira de f
 - Tipografia: Bricolage Grotesque (títulos, peso 800) e Atkinson Hyperlegible (corpo, 18 px).
 - Linguagem visual: fotos como figurinhas (classe `.figurinha`: borda branca grossa, canto arredondado, sombra dura sem desfoque) e cartões levemente tortos com borda tinta.
 - Efeito por seção (pedido do usuário, no lugar da regra do destaque único):
-  - Hero: objetos 3D flutuam e seguem o mouse; ao rolar, se espalham e as figurinhas descolam.
+  - Hero: título em duas linhas com contorno e sombra tinta; objetos 3D flutuam e seguem o mouse; ao rolar, se espalham e as nuvens sobem em velocidades diferentes.
   - O que é: uma lupa passeia pela foto e amplia o que está embaixo (variáveis CSS `--lx`/`--ly` animadas pelo GSAP).
   - Percurso: cartões dos sítios grudam (`sticky`) e se empilham; o de baixo encolhe e entorta.
   - Edições: a colagem de fotos chega espalhada e se cola no lugar (scrub); contagem com NumberFlow.
