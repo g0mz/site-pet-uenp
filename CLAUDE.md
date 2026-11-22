@@ -102,20 +102,27 @@ O CI (`.github/workflows/ci.yml`) roda lint, build e e2e em todo push e PR. Na `
 
 - `src/App.tsx`: cabeçalho fixo (marca, links e botão "Participar"), `<SmoothScroll>` em volta de tudo e as seções em ordem: Hero, O que é (`About`), Percurso (`HowItWorks`), Edições, Quem faz (`Team`), Como participar (`Signup`).
 - `src/content/`: `site.ts`, `next-event.ts`, `sitios.ts` (paradas do percurso), `editions.ts`, `team.ts` (coordenação e grupos) e `fotos.ts` (fotos em `public/fotos/*.webp`, sempre com `BASE_URL`).
-- `src/motion/`: `gsap.ts` registra ScrollTrigger e `useGSAP` uma vez. `SmoothScroll.tsx` liga o Lenis ao ticker do GSAP. `useReducedMotion.ts`. O GSAP anima só a entrada do título do hero (o único momento orquestrado).
-- `src/components/Section.tsx`: casca estática de seção (âncora, título, largura). Não anima.
+- `src/motion/`: `gsap.ts` registra ScrollTrigger e `useGSAP` uma vez e exporta `MOVIMENTO` (a media query `prefers-reduced-motion: no-preference`). `SmoothScroll.tsx` liga o Lenis ao ticker do GSAP. `useReducedMotion.ts`.
+- Cada seção tem o próprio efeito de scroll, com `useGSAP` no escopo dela e dentro de `gsap.matchMedia().add(MOVIMENTO, ...)`. Com reduced-motion a página fica parada.
+- `src/components/Section.tsx`: casca de seção (âncora, título, largura) que aceita `ref` para o efeito da seção.
 - `src/sections/NextEventBlock.tsx`: bloco que reage ao `status` do próximo evento, usado no Hero e em "Como participar". Tem `data-testid="proximo-evento"`, que o teste de fumaça usa.
-- `src/three/HeroScene.tsx`: amonite procedural (espiral logarítmica com costelas). Export default para o `React.lazy`. O chunk do three.js (~240 kB gzip) só carrega com o hero.
+- `src/three/HeroScene.tsx`: objetos de ciência com cara de massinha (DNA, planeta, lupa, folha e tubo de ensaio), feitos com geometria do three.js e drei (`Float`, `Environment` com `Lightformer`, sem baixar HDR). Seguem o mouse e se espalham com o `progresso` que o GSAP passa por ref. Export default para o `React.lazy`. O chunk do three.js (~265 kB gzip) só carrega com o hero.
 
-## Design implementado (skill `visual`, workflow de UI)
+## Design implementado: "feira de figurinhas" (frontend-design, 2026-11-21)
 
-- Paleta "pica-pau-amarelo" em `src/index.css`: mata `#0f6b3e`, mata-escura `#0a4a2b`, pena `#f2c230`, crista `#c8102e`, carvão `#1a1a1a`, papel `#fff`, folha `#e3efe4`. Disponíveis como classes Tailwind (`bg-mata`, `text-pena`...).
-- Tipografia: Fraunces (títulos, com eixos SOFT/WONK) e Atkinson Hyperlegible (corpo, 18 px).
-- Camadas de componentes:
-  - **Fundações**: shadcn (`button`, `drawer`) sobre Radix.
-  - **Especialistas**: Vaul (galeria de fotos em `drawer`) e NumberFlow (contagem de participantes). Sonner e cmdk não entraram porque a página não tem aviso nem busca.
-  - **Componente de design (destaque único)**: `src/components/ui/timeline.tsx`, Timeline da Aceternity retematizado como a trilha do percurso. Não adicione outro componente de design na página.
-- O hero 3D é discreto de propósito, para não competir com a trilha.
+Escolhida entre três direções (livro pop-up, expedição na mata e feira de figurinhas). A amonite foi descartada.
+
+- Paleta em `src/index.css`: céu `#3aa6e8`, céu-claro `#e3f3fc`, grama `#2fae5b`, pena `#ffcf33`, crista `#e8423f`, lilás `#8b7cf6`, tinta `#14213d` e papel `#fff`. Classes Tailwind `bg-ceu`, `text-tinta` etc. Texto corrido sempre em tinta; branco só sobre tinta, porque céu, grama e crista não dão contraste.
+- Tipografia: Bricolage Grotesque (títulos, peso 800) e Atkinson Hyperlegible (corpo, 18 px).
+- Linguagem visual: fotos como figurinhas (classe `.figurinha`: borda branca grossa, canto arredondado, sombra dura sem desfoque) e cartões levemente tortos com borda tinta.
+- Efeito por seção (pedido do usuário, no lugar da regra do destaque único):
+  - Hero: objetos 3D flutuam e seguem o mouse; ao rolar, se espalham e as figurinhas descolam.
+  - O que é: uma lupa passeia pela foto e amplia o que está embaixo (variáveis CSS `--lx`/`--ly` animadas pelo GSAP).
+  - Percurso: cartões dos sítios grudam (`sticky`) e se empilham; o de baixo encolhe e entorta.
+  - Edições: a colagem de fotos chega espalhada e se cola no lugar (scrub); contagem com NumberFlow.
+  - Quem faz: os selos caem e quicam (`bounce.out`, uma vez).
+  - Como participar: a onda no topo da faixa amarela vira do avesso (GSAP interpola o `d` do path).
+- Camadas de componentes: **Fundações** shadcn (`button`, `drawer`) sobre Radix; **Especialistas** Vaul (galeria), NumberFlow (contagem) e three.js (3D). Sem componente de design de terceiros: o Timeline da Aceternity e a dependência `motion` saíram.
 
 ## ECC (Everything Claude Code) instalado só neste projeto
 

@@ -1,53 +1,59 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/bricolage-grotesque/standard.css";
 @import "@fontsource/atkinson-hyperlegible/400.css";
 @import "@fontsource/atkinson-hyperlegible/700.css";
 
-/* Paleta "pica-pau-amarelo" (ver CLAUDE.md, direção de design). Tema único, sem modo escuro. */
+/* Direção "feira de figurinhas" (ver CLAUDE.md). Tema único, sem modo escuro.
+   Texto corrido sempre em tinta: branco só sobre tinta, porque céu e grama não dão contraste. */
 :root {
-  --mata: #0f6b3e;
-  --mata-escura: #0a4a2b;
-  --pena: #f2c230;
-  --crista: #c8102e;
-  --carvao: #1a1a1a;
+  --ceu: #3aa6e8;
+  --ceu-claro: #e3f3fc;
+  --grama: #2fae5b;
+  --pena: #ffcf33;
+  --crista: #e8423f;
+  --lilas: #8b7cf6;
+  --tinta: #14213d;
   --papel: #ffffff;
-  --folha: #e3efe4;
 
   --background: var(--papel);
-  --foreground: var(--carvao);
+  --foreground: var(--tinta);
   --card: var(--papel);
-  --card-foreground: var(--carvao);
+  --card-foreground: var(--tinta);
   --popover: var(--papel);
-  --popover-foreground: var(--carvao);
-  --primary: var(--mata);
+  --popover-foreground: var(--tinta);
+  --primary: var(--tinta);
   --primary-foreground: var(--papel);
-  --secondary: var(--folha);
-  --secondary-foreground: var(--carvao);
-  --muted: var(--folha);
-  --muted-foreground: #4a5a4f;
+  --secondary: var(--ceu-claro);
+  --secondary-foreground: var(--tinta);
+  --muted: var(--ceu-claro);
+  --muted-foreground: #46506a;
   --accent: var(--pena);
-  --accent-foreground: var(--carvao);
+  --accent-foreground: var(--tinta);
   --destructive: var(--crista);
-  --border: #cfdcd1;
-  --input: #cfdcd1;
-  --ring: var(--mata);
-  --radius: 0.375rem;
+  --border: #d5dbe8;
+  --input: #d5dbe8;
+  --ring: var(--tinta);
+  --radius: 0.875rem;
 }
 
 @theme inline {
-  --font-display: 'Fraunces Variable', Georgia, serif;
+  --font-display: 'Bricolage Grotesque Variable', system-ui, sans-serif;
   --font-sans: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --font-heading: var(--font-display);
 
-  --color-mata: var(--mata);
-  --color-mata-escura: var(--mata-escura);
+  --color-ceu: var(--ceu);
+  --color-ceu-claro: var(--ceu-claro);
+  --color-grama: var(--grama);
   --color-pena: var(--pena);
   --color-crista: var(--crista);
-  --color-carvao: var(--carvao);
+  --color-lilas: var(--lilas);
+  --color-tinta: var(--tinta);
   --color-papel: var(--papel);
-  --color-folha: var(--folha);
+
+  /* Sombra dura de figurinha colada, sem desfoque. */
+  --shadow-figurinha: 0 6px 0 rgb(20 33 61 / 0.18);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -83,11 +89,19 @@
   }
   h1, h2, h3 {
     font-family: var(--font-display);
-    font-variation-settings: "SOFT" 50, "WONK" 1;
+    font-weight: 800;
+    letter-spacing: -0.025em;
     text-wrap: balance;
   }
   :focus-visible {
-    outline: 3px solid var(--pena);
+    outline: 3px solid var(--tinta);
     outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Foto como figurinha: borda branca grossa, canto arredondado e sombra dura. */
+  .figurinha {
+    @apply rounded-2xl border-[6px] border-papel bg-papel shadow-figurinha;
   }
 }

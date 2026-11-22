@@ -16,22 +16,22 @@ const nav = [
 export default function App() {
   return (
     <SmoothScroll>
-      <header className="sticky top-0 z-50 border-b bg-papel/90 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b-2 border-tinta bg-papel">
         <nav aria-label="Seções" className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-          <a href="#inicio" className="font-display text-xl font-semibold text-mata">
+          <a href="#inicio" className="font-display text-xl font-extrabold tracking-tight">
             Quintas da Ciência
           </a>
           <div className="flex items-center gap-6">
             <ul className="hidden gap-6 md:flex">
               {nav.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href} className="hover:text-mata hover:underline">
+                  <a href={n.href} className="underline-offset-4 hover:underline">
                     {n.label}
                   </a>
                 </li>
               ))}
             </ul>
-            <a href="#participar" className="rounded-md bg-pena px-4 py-2 font-bold text-carvao hover:bg-pena/85">
+            <a href="#participar" className="rounded-full border-2 border-tinta bg-pena px-5 py-2 font-bold shadow-[0_3px_0_var(--tinta)] transition-transform hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none">
               Participar
             </a>
           </div>
@@ -45,7 +45,7 @@ export default function App() {
         <Team />
         <Signup />
       </main>
-      <footer className="bg-mata-escura px-5 py-10 text-papel">
+      <footer className="bg-tinta px-5 py-10 text-papel">
         <p className="mx-auto max-w-6xl">
           Quintas da Ciência da UENP, um projeto do PET Biologia no Campus Luiz Meneghel, em
           Bandeirantes (PR).
