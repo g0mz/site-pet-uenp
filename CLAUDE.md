@@ -15,7 +15,7 @@ Site de divulgação de um evento (organizado pelo PET/UENP). Conteúdo previsto
 
 ## Fonte do conteúdo
 
-Todo texto e decisão visual se baseia em `material/` (fora do git, porque o repositório é público):
+Todo texto e decisão visual se baseia em `material/` (versionado no repositório, que é público):
 - `material/originais/`: arquivos que o usuário enviou, intocados.
 - `material/*.md`: conversões em Markdown, que são a referência de leitura. Fotos extraídas ficam em `material/imagens/`, com índice descritivo no `.md` do evento.
 
